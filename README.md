@@ -78,6 +78,32 @@ python verify.py
 # - Create verification_results.json with test results
 ```
 
+#### Running Example Usage
+```bash
+# See practical examples of using the system
+python example_usage.py
+
+# This demonstrates:
+# - Basic curve generation
+# - Metric calculations
+# - Property validation
+# - Comparing different configurations
+# - Phase shift effects
+```
+
+#### Running Unit Tests
+```bash
+# Run comprehensive unit tests
+python test_lissajous.py
+
+# Tests include:
+# - Circle and diagonal generation
+# - Amplitude scaling
+# - Point count verification
+# - Bounding box symmetry
+# - And more (10 tests total)
+```
+
 #### Expected Output
 The script performs comprehensive validation:
 - ✓ Basic curve generation (1000 points)
