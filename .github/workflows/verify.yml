@@ -1,0 +1,60 @@
+name: Lissajous Geometry Verification
+
+on:
+  push:
+    branches: [ main, copilot/** ]
+  pull_request:
+    branches: [ main ]
+  workflow_dispatch:
+
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v3
+      
+    - name: Set up Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: '3.9'
+        
+    - name: Install dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install -r requirements.txt
+        
+    - name: Run verification script
+      run: |
+        python verify.py
+        
+    - name: Check generated datasets
+      run: |
+        ls -la datasets/
+        echo "Checking dataset files..."
+        test -f datasets/lissajous_circle.csv
+        test -f datasets/lissajous_diagonal.csv
+        test -f datasets/lissajous_standard_3_2.csv
+        test -f datasets/lissajous_standard_5_4.csv
+        test -f datasets/lissajous_asymmetric_3_2.csv
+        test -f datasets/lissajous_inverted_2_3.csv
+        test -f datasets/summary.csv
+        echo "All dataset files present!"
+        
+    - name: Verify results JSON
+      run: |
+        test -f verification_results.json
+        cat verification_results.json
+        
+    - name: Upload datasets as artifacts
+      uses: actions/upload-artifact@v3
+      with:
+        name: lissajous-datasets
+        path: datasets/
+        
+    - name: Upload verification results
+      uses: actions/upload-artifact@v3
+      with:
+        name: verification-results
+        path: verification_results.json

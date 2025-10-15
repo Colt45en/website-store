@@ -48,3 +48,14 @@ dist/
 public/build/
 *.min.js
 *.min.css
+
+# Generated datasets and verification results
+datasets/
+verification_results.json
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
