@@ -31,6 +31,14 @@ jobs:
         working-directory: server
         run: npm ci
 
+      - name: Run mapping verifier (pure-Python)
+        # run on matrix runners (ubuntu/windows) but the verifier reads repo-root data/ CSVs
+        # keep it simple and run using python from PATH; fail the step if verifier exits non-zero
+        working-directory: ${{ github.workspace }}
+        run: |
+          echo 'Running scripts/verify_mapping.py'
+          python scripts/verify_mapping.py
+
       - name: Run e2e:auto (capture output)
         working-directory: server
         continue-on-error: true
