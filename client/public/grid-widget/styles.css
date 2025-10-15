@@ -1,0 +1,32 @@
+* { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
+body { background-color: #1a1a1a; color: #e0e0e0; }
+.container { display: flex; height: 100vh; overflow: hidden; }
+/* Toolbar Styles */
+.toolbar { width: 300px; background-color: #252525; padding: 20px; overflow-y: auto; border-right: 1px solid #333; }
+.toolbar h2 { margin-bottom: 20px; color: #00ff7f; text-align: center; font-size: 1.4rem; }
+.tool-section { margin-bottom: 25px; border-bottom: 1px solid #333; padding-bottom: 15px; }
+.tool-section:last-child { border-bottom: none; }
+.tool-section h3 { margin-bottom: 10px; color: #00ccff; font-size: 1.1rem; }
+.tool-options { display: flex; flex-direction: column; gap: 12px; }
+.tool-btn { padding: 8px 15px; background-color: #333; color: #fff; border: none; border-radius: 4px; cursor: pointer; transition: all 0.2s; }
+.tool-btn:hover { background-color: #444; }
+.tool-btn.active { background-color: #00aa7f; color: white; }
+label { display: flex; flex-direction: column; gap: 5px; font-size: 0.9rem; }
+input[type="range"] { width: 100%; }
+input[type="color"] { width: 100%; height: 30px; border: none; cursor: pointer; }
+select { padding: 5px; background-color: #333; color: white; border: 1px solid #444; border-radius: 4px; }
+/* Canvas Container */
+.canvas-container { flex: 1; position: relative; background-color: #1e1e1e; }
+canvas { position: absolute; top: 0; left: 0; }
+#gridCanvas { z-index: 1; }
+#drawingCanvas { z-index: 2; }
+/* Grid Themes */
+.neon-blue { --grid-color: rgba(0, 191, 255, 0.5); --grid-bg: #0f1a2b; }
+.neon-green { --grid-color: rgba(57, 255, 20, 0.5); --grid-bg: #0f2b14; }
+.neon-purple { --grid-color: rgba(186, 85, 255, 0.5); --grid-bg: #21122b; }
+.classic-gray { --grid-color: rgba(150, 150, 150, 0.5); --grid-bg: #2a2a2a; }
+/* Responsive adjustments */
+@media (max-width: 768px) { .container { flex-direction: column; } .toolbar { width: 100%; height: auto; max-height: 30vh; border-right: none; border-bottom: 1px solid #333; } }
+
+/* small utility spacing */
+.tool-options .btn-inline { display: inline-block; margin-right: 8px; }

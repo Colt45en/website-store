@@ -1,0 +1,5 @@
+
+> nova-server@0.1.0 start:cleanup
+> cross-env TEST_CLEANUP_ENABLED=1 TEST_CLEANUP_TOKEN=localtesttoken NODE_ENV=test node index.js
+
+Nova server running on http://localhost:4000

@@ -1,0 +1,28 @@
+{
+  "name": "nova-server",
+  "version": "0.1.0",
+  "private": true,
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js",
+    "test": "node tests/chat_test.js",
+    "e2e": "node tests/e2e_append_test.js",
+    "e2e:auto": "node tests/e2e_with_server.js"
+  ,
+  "start:cleanup": "cross-env TEST_CLEANUP_ENABLED=1 NODE_ENV=test node index.js",
+  "test-cleanup": "cross-env TEST_CLEANUP_ENABLED=1 NODE_ENV=test node tests/cleanup_integration_test.js"
+  },
+  "dependencies": {
+    "bcryptjs": "^2.4.3",
+    "body-parser": "^1.20.2",
+    "cors": "^2.8.5",
+    "express": "^4.18.2",
+    "jsonwebtoken": "^9.0.0",
+    "node-fetch": "^2.6.7",
+    "nodemailer": "^7.0.9",
+    "sqlite3": "^5.1.6"
+  },
+  "devDependencies": {
+    "cross-env": "^10.1.0"
+  }
+}

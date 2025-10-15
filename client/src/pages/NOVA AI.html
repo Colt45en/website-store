@@ -1,0 +1,219 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>Archived NOVA AI</title>
+    <style>body{font-family:Inter, system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial; padding:24px; background:#0b1220;color:#fff}</style>
+  </head>
+  <body>
+    <h1>Archived: NOVA AI</h1>
+    <p>This large legacy HTML + inline JS has been archived to avoid build errors. The new React-based <code>NovaAI.jsx</code> component implements the functionality and the static widget was moved to <code>client/public/grid-widget</code>.</p>
+    <p>If you need the original file contents, check Git history or the archived copy <code>legacy-NOVA AI.html</code>.</p>
+  </body>
+</html>
+                        <button id="close-chat-btn" class="text-gray-400 hover:text-white transition duration-300 p-1"><svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd" /></svg></button>
+                        <button id="site-qa-btn" class="text-gray-400 hover:text-white transition duration-300 p-1">Site QA</button>
+                    </div>
+                </div>
+                <div id="chat-container" class="flex-1 p-6 overflow-y-auto chat-container"></div>
+                <div class="p-4 border-t border-gray-700 z-10">
+                    <div class="flex items-center bg-gray-700 rounded-xl p-2">
+                        <button id="multimodal-btn" class="text-gray-400 hover:text-white p-2"><svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M4 4a2 2 0 012-2h8a2 2 0 012 2v12a1 1 0 11-2 0V8l-3 3-3-3v8a1 1 0 11-2 0V4z" clip-rule="evenodd" /></svg></button>
+                        <input type="text" id="user-input" placeholder="Try 'start screen recording'..." class="flex-1 bg-transparent text-white placeholder-gray-400 focus:outline-none px-4">
+                        <button id="send-btn" class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-lg transition duration-300"><svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" /></svg></button>
+                    </div>
+                </div>
+                <!-- Proactive Intervention Bar -->
+                <div id="proactive-bar" class="absolute bottom-0 left-0 right-0 bg-gray-900 bg-opacity-80 backdrop-blur-sm p-4 border-t border-gray-700 flex items-center justify-between z-20">
+                    <p id="proactive-text" class="text-sm"></p>
+                    <div>
+                        <button id="proactive-accept" class="bg-green-600 hover:bg-green-700 text-white text-sm font-bold py-1 px-3 rounded-lg mr-2">Accept</button>
+                        <button id="proactive-decline" class="bg-gray-600 hover:bg-gray-700 text-white text-sm font-bold py-1 px-3 rounded-lg">Decline</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Open Chat Button -->
+    <button id="open-chat-btn" class="fixed bottom-5 right-5 bg-blue-600 hover:bg-blue-700 text-white rounded-full w-16 h-16 flex items-center justify-center shadow-lg z-40">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" />
+        </svg>
+    </button>
+
+    <!-- Settings Modal -->
+    <div id="settings-modal" class="fixed inset-0 bg-black bg-opacity-50 hidden items-center justify-center transition-opacity duration-300 opacity-0 z-50">
+        <div class="bg-gray-800 rounded-lg shadow-xl p-8 w-full max-w-md border border-gray-700">
+            <h2 class="text-2xl font-bold mb-6">Settings</h2>
+            <div class="mb-4"><label for="api-key-input" class="block text-sm font-medium text-gray-300 mb-2">API Key</label><input type="password" id="api-key-input" class="w-full bg-gray-700 border border-gray-600 rounded-lg px-4 py-2 text-white focus:outline-none focus:ring-2 focus:ring-blue-500"></div>
+            <hr class="border-gray-600 my-6"><h3 class="text-xl font-bold mb-4">Memory</h3>
+            <div id="memory-display" class="bg-gray-700 rounded-lg p-3 text-sm max-h-40 overflow-y-auto"></div>
+            <p class="text-xs text-gray-500 mt-2 mb-6">The bot remembers these facts about you.</p>
+            <div class="flex justify-between"><button id="clear-memory-btn" class="bg-red-600 hover:bg-red-700 text-white font-bold py-2 px-4 rounded-lg">Clear Memory</button><div><button id="close-modal-btn" class="text-gray-400 hover:text-white px-4 py-2 rounded-lg mr-2">Close</button><button id="save-settings-btn" class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-lg">Save</button></div></div>
+        </div>
+    </div>
+
+    <script>
+        // --- DOM Elements ---
+        const ui = {
+            chatContainer: document.getElementById('chat-container'), userInput: document.getElementById('user-input'), sendBtn: document.getElementById('send-btn'), settingsBtn: document.getElementById('settings-btn'), settingsModal: document.getElementById('settings-modal'), closeModalBtn: document.getElementById('close-modal-btn'), saveSettingsBtn: document.getElementById('save-settings-btn'), apiKeyInput: document.getElementById('api-key-input'), personaSelect: document.getElementById('persona-select'), newChatBtn: document.getElementById('new-chat-btn'), conversationList: document.getElementById('conversation-list'), chatTitle: document.getElementById('chat-title'), memoryDisplay: document.getElementById('memory-display'), clearMemoryBtn: document.getElementById('clear-memory-btn'),
+            proactiveBar: document.getElementById('proactive-bar'), proactiveText: document.getElementById('proactive-text'), proactiveAccept: document.getElementById('proactive-accept'), proactiveDecline: document.getElementById('proactive-decline'),
+            chatWidgetContainer: document.getElementById('chat-widget-container'), openChatBtn: document.getElementById('open-chat-btn'), closeChatBtn: document.getElementById('close-chat-btn'), multimodalBtn: document.getElementById('multimodal-btn'),
+            sidebar: document.getElementById('sidebar'), openSidebarBtn: document.getElementById('open-sidebar-btn'), closeSidebarBtn: document.getElementById('close-sidebar-btn'),
+        };
+
+        // --- State Management ---
+        let state = {
+            apiKey: localStorage.getItem('apiKey'), conversations: JSON.parse(localStorage.getItem('conversations')) || [], activeConversationId: localStorage.getItem('activeConversationId'), userMemory: JSON.parse(localStorage.getItem('userMemory')) || {}
+        };
+        if (state.apiKey) ui.apiKeyInput.value = state.apiKey;
+
+        // --- Personas Definition ---
+        const personas = {
+            general: { name: "General Assistant", greeting: "Hello! I'm your general assistant.", prompt: "You are a helpful general assistant." },
+            proactive: { name: "Proactive Assistant", greeting: "Hello! As a proactive assistant, I will monitor for opportunities to help.", prompt: "You are a proactive assistant. Your goal is to anticipate user needs and suggest helpful next actions." },
+            delegator: { name: "Delegator Agent", greeting: "Hello. I am the Delegator Agent. Please provide a high-level goal, and I will create and execute a plan to achieve it.", prompt: "You are a master agent that delegates tasks. First, create a step-by-step plan. Then, for each step, state which specialist agent (tool) you are using. Finally, provide a summary of completion." },
+            reasoning: { name: "Reasoning Engine", greeting: "Hello! I am the Reasoning Engine.", prompt: "You are a reasoning engine. When given a complex problem, first, think step-by-step. After your reasoning, provide a final, conclusive answer." },
+            storyteller: { name: "Storyteller", greeting: "Welcome, traveler. A new story is about to unfold.", prompt: "You are an interactive storyteller. Present a scenario and end with a question offering two choices, like 'Do you [A] or [B]?'" },
+            code: { name: "Code Helper", greeting: "Hello! I'm your Code Helper.", prompt: "You are an expert programmer." }
+        };
+        
+        // --- Proactive & Sentiment Engines ---
+        const proactiveEngine = {
+            inactivityTimer: null,
+            init() { this.resetInactivityTimer(); },
+            resetInactivityTimer() {
+                clearTimeout(this.inactivityTimer);
+                this.inactivityTimer = setTimeout(() => {
+                    const activeConvo = getActiveConversation();
+                    if (activeConvo && activeConvo.persona === 'proactive') {
+                        this.trigger({
+                            type: 'inactivity',
+                            message: "It looks like you've been idle. Need help?",
+                                action: () => {
+                                    addMessage('user', "Yes, I need help.");
+                                    agentController("What can I help you with?");
+                                }
+                            });
+                        }
+                    }, 15000); // 15 seconds
+            }
+        };
+
+        // --- Site QA mode ---
+        let siteQAMode = false;
+        document.getElementById('site-qa-btn').onclick = () => {
+            siteQAMode = !siteQAMode;
+            document.getElementById('site-qa-btn').textContent = siteQAMode ? 'Site QA ✓' : 'Site QA';
+            ui.userInput.placeholder = siteQAMode ? "Ask about our site, products, or listings..." : "Try 'start screen recording'...";
+        };
+
+        async function siteQA(query) {
+            ui.chatContainer.innerHTML = '';
+            const msg = document.createElement('div'); 
+            msg.className = 'p-3 mb-2 bg-gray-700 rounded-lg'; 
+            msg.textContent = 'Searching site content...'; 
+            ui.chatContainer.appendChild(msg);
+            try {
+                const res = await fetch('/api/qa', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ q: query }) });
+                const j = await res.json();
+                ui.chatContainer.innerHTML = '';
+                j.answers.forEach(a => {
+                    const el = document.createElement('div'); 
+                    el.className = 'p-3 mb-2 bg-gray-700 rounded-lg transition-all duration-300';
+                    const title = document.createElement('div'); 
+                    title.className = 'font-bold mb-1'; 
+                    title.textContent = a.title || 'Source';
+                    const body = document.createElement('div'); 
+                    body.textContent = a.text;
+                    const badge = document.createElement('div'); 
+                    badge.className = 'text-xs text-gray-400 mt-2'; 
+                    badge.textContent = `source: ${a.sourceId || 'site'}`;
+                    el.appendChild(title); 
+                    el.appendChild(body); 
+                    el.appendChild(badge);
+                    ui.chatContainer.appendChild(el);
+                });
+            } catch (e) { 
+                ui.chatContainer.innerHTML = '<div class="p-3 bg-red-700 rounded">QA failed</div>'; 
+            }
+        }
+
+        // Move these methods outside the proactiveEngine object
+        proactiveEngine.predictiveAction = function(lastAction) {
+            if (getActiveConversation()?.persona !== 'proactive') return;
+            if (lastAction === 'Data Visualizer') {
+                this.trigger({
+                    type: 'prediction',
+                    message: "Generated the chart. Draft an email to share this report?",
+                    action: () => {
+                        addMessage('user', "Yes, draft an email.");
+                        agentController("Drafting email now...");
+                    }
+                });
+            }
+        };
+        proactiveEngine.trigger = function({ message, action }) {
+            ui.proactiveText.textContent = message;
+            ui.proactiveBar.classList.add('visible');
+            ui.proactiveAccept.onclick = () => {
+                action();
+                this.dismiss();
+            };
+        };
+        proactiveEngine.dismiss = function() {
+            ui.proactiveBar.classList.remove('visible');
+        };
+        const sentimentEngine = {
+            analyze(text) {
+                const positive = ['great', 'excellent', 'love', 'awesome', 'amazing', 'good'];
+                const negative = ['hate', 'terrible', 'awful', 'bad', 'frustrated'];
+                if (positive.some(word => text.toLowerCase().includes(word))) return 'Positive';
+                if (negative.some(word => text.toLowerCase().includes(word))) return 'Negative';
+                return null;
+            }
+        };
+
+        // --- Story State Machine ---
+        const storyEngine = {
+            handleChoice(conversation, choice) {
+                const currentState = conversation.storyState.node;
+                const nextNodeKey = Object.keys(this.story[currentState].choices).find(key => choice.toLowerCase().includes(key));
+                if (nextNodeKey) {
+                    const nextNode = this.story[currentState].choices[nextNodeKey];
+                    conversation.storyState.node = nextNode;
+                    addMessage('bot', this.story[nextNode].text);
+                    if (Object.keys(this.story[nextNode].choices).length === 0) conversation.storyState.inProgress = false;
+                } else {
+                    addMessage('bot', "That's not a valid choice.");
+                }
+            },
+            story: {
+                start: { text: "You stand at a crossroads. Left to a light, right to shadows. Which do you take?", choices: { left: "light", right: "shadows" } },
+                light: { text: "You find a tranquil pond. Do you drink or inspect?", choices: { drink: "drink_magic", inspect: "inspect_pond" } },
+                shadows: { text: "You hear a growl. Do you draw your sword or back away?", choices: { sword: "fight_beast", back_away: "flee" } },
+                drink_magic: { text: "You feel a surge of power! THE END.", choices: {} },
+                inspect_pond: { text: "You find a hidden treasure chest! THE END.", choices: {} },
+                fight_beast: { text: "You are victorious! THE END.", choices: {} },
+                flee: { text: "You escape safely. THE END.", choices: {} }
+            }
+        };
+
+        // --- Tool/Plugin Definitions ---
+        const pluginManager = {
+            plugins: [],
+            register(plugin) { this.plugins.push(plugin); },
+            async execute(input) {
+                for (const plugin of this.plugins) {
+                    if (plugin.keywords.some(keyword => input.toLowerCase().includes(keyword))) {
+                        const result = await plugin.execute(input);
+                        proactiveEngine.predictiveAction(plugin.name);
+                        if (result && result.postRender) setTimeout(() => result.postRender(), 100);
+                        return true;
+                    }
+                }
+                return false;
+            }
+        };

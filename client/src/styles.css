@@ -1,0 +1,96 @@
+/* Build progress bar */
+.build-progress-bar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 6px;
+  background: rgba(0,255,106,0.08);
+  z-index: 99999;
+}
+.build-progress-inner {
+  height: 100%;
+  width: 0;
+  background: linear-gradient(90deg, var(--neon-green), var(--neon-orange));
+  box-shadow: 0 0 16px var(--neon-green);
+  animation: buildbar 1.6s cubic-bezier(.4,0,.2,1) forwards;
+}
+@keyframes buildbar {
+  0% { width: 0; }
+  80% { width: 92vw; }
+  100% { width: 100vw; }
+}
+/* Spinner for Save button */
+.spinner {
+  display: inline-block;
+  width: 18px;
+  height: 18px;
+  border: 3px solid #00ff6a;
+  border-top: 3px solid #ff7a00;
+  border-radius: 50%;
+  animation: spin 0.8s linear infinite;
+  vertical-align: middle;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+.root{
+  --bg: #000; /* black */
+  --neon-green: #00ff6a;
+  --neon-orange: #ff7a00;
+  --white: #ffffff;
+}
+:root{ --bg: #000; --neon-green: #00ff6a; --neon-orange: #ff7a00; --white: #ffffff }
+body{ margin:0; font-family:Inter, system-ui, sans-serif; background:var(--bg); color:var(--white) }
+.nova-header{ display:flex; justify-content:space-between; align-items:center; padding:12px 16px; border-bottom:1px solid rgba(255,255,255,0.04); position:sticky; top:0; backdrop-filter: blur(6px); z-index:40 }
+.nova-brand{ font-weight:800; letter-spacing:4px; display:flex; align-items:center }
+.nav-btn{ margin-left:8px; background:transparent; color:var(--white); border:1px solid rgba(255,255,255,0.04); padding:6px 10px; border-radius:6px }
+.nav-right{ display:flex; gap:8px; align-items:center }
+.mobile-menu{ display:none }
+
+/* Reserve a transparent block for auth buttons so header doesn't shift when signed in/out */
+.auth-block{ min-width:260px; display:flex; gap:8px; align-items:center; justify-content:flex-end }
+.auth-block > *{ background: transparent }
+.landing{ padding:80px; text-align:center }
+.nova-title{ font-size:72px; margin:0; color:var(--neon-green); text-shadow:0 0 12px rgba(0,255,106,0.14); transform-origin:center; animation: pulse 3s infinite }
+.nova-sub{ color:rgba(255,255,255,0.6) }
+.grid{ display:grid; grid-template-columns:repeat(auto-fill,minmax(220px,1fr)); gap:18px }
+.card{ background:linear-gradient(180deg,#071018 0%, #041018 100%); padding:12px; border-radius:12px; border:1px solid rgba(255,255,255,0.04); transition: transform .18s ease, box-shadow .18s ease }
+.card:hover{ transform: translateY(-6px); box-shadow: 0 12px 30px rgba(0,255,106,0.06) }
+.card h3{ margin:0 0 6px 0 }
+.price{ font-weight:700; color:var(--neon-orange) }
+.cta{ background:linear-gradient(90deg,var(--neon-green),var(--neon-orange)); color:#000; padding:8px 14px; border-radius:8px; border:none; cursor:pointer; box-shadow: 0 6px 18px rgba(255,122,0,0.08) }
+.auth-box{ padding:24px; max-width:420px; margin:24px auto; background:#071018; border-radius:8px }
+input{ width:100%; padding:8px; margin:6px 0 12px 0; border-radius:6px; border:1px solid rgba(255,255,255,0.04); background:#000; color:var(--white) }
+.error{ color:#ff6b6b }
+.nova-footer{ text-align:center; padding:18px; color:rgba(255,255,255,0.4) }
+.dashboard{ padding:24px }
+
+@keyframes pulse{ 0%{ transform:scale(1) } 50%{ transform:scale(1.02) } 100%{ transform:scale(1) } }
+
+/* small screens */
+@media (max-width: 720px){
+  .nova-title{ font-size:44px }
+  .nav-right{ display:none }
+  .mobile-menu{ display:block }
+  .grid{ grid-template-columns: repeat(2, 1fr) }
+}
+
+/* Toasts */
+.toast-container{ position:fixed; right:20px; bottom:20px; display:flex; flex-direction:column; gap:8px; z-index:9999 }
+.toast{ background:#0b1220; padding:10px 14px; border-radius:8px; border:1px solid rgba(255,255,255,0.04); cursor:pointer; box-shadow:0 8px 20px rgba(0,0,0,0.6) }
+
+/* Off-canvas drawer */
+.drawer-backdrop{ position:fixed; inset:0; background:rgba(0,0,0,0.4); display:flex; justify-content:flex-end; z-index:9998 }
+.drawer{ width:320px; max-width:90vw; background:#071018; padding:16px; box-shadow:-8px 0 24px rgba(0,0,0,0.6); height:100vh; overflow:auto }
+.drawer-item{ display:flex; justify-content:space-between; align-items:center; gap:8px; padding:8px 0; border-bottom:1px solid rgba(255,255,255,0.02) }
+
+/* Theme overrides */
+:root[data-theme='dark']{
+  --bg: #071018; --neon-green: #66ff9a; --neon-orange: #ff9b5c; --white: #eaeaea;
+}
+:root[data-theme='light']{
+  --bg: #f6f6f8; --neon-green: #007a3d; --neon-orange: #b25900; --white: #111;
+}

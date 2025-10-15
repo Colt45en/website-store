@@ -1,0 +1,61 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>SC → WebAudio Widget</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <div class="wrap">
+    <h1>SuperCollider → WebAudio (Tone.js) Widget</h1>
+
+    <div class="controls">
+      <label>Patch
+        <select id="patchSelect">
+          <option value="drum">Drum Loop (kick/snare/hat)</option>
+          <option value="ring">Ring-mod Synth</option>
+          <option value="noise">Filtered Noise Texture</option>
+        </select>
+      </label>
+
+      <label>Tempo
+        <input id="tempo" type="range" min="60" max="200" value="120" />
+        <span id="tempoVal">120</span>
+      </label>
+
+      <label>Volume
+        <input id="volume" type="range" min="-24" max="6" value="-6" />
+        <span id="volumeVal">-6 dB</span>
+      </label>
+
+      <div class="buttons">
+        <button id="start">Play</button>
+        <button id="stop">Stop</button>
+      </div>
+    </div>
+
+    <div class="info">
+      <h3>Mapped snippets</h3>
+      <ul>
+        <li>Snare + kick + hat pattern — maps to SC snare/bdrum/hihat example.</li>
+        <li>Ring-mod synth — maps to ring/modulated synth examples.</li>
+        <li>Filtered noise texture — maps to WhiteNoise/HPF chains.</li>
+      </ul>
+      <p class="note">This is an approximation using <a href="https://tonejs.github.io/" target="_blank">Tone.js</a>. Sounds will differ from SuperCollider but capture structure and control (tempo, volume).</p>
+      <div style="margin-top:12px;">
+        <label style="display:flex;align-items:center;gap:8px"><input id="showOriginal" type="checkbox" /> Show original SC snippet</label>
+        <pre id="origCode" style="display:none;margin-top:8px;background:#071226;color:#dbeafe;padding:10px;border-radius:6px;overflow:auto;max-height:220px;font-size:12px;">
+        </pre>
+        <div style="margin-top:8px; display:flex; gap:8px;">
+          <button id="sendToChat" class="cta">Send patch to chat</button>
+          <button id="openNew" class="cta" onclick="window.open('/sc-widget/index.html','_blank')">Open in new tab</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/tone@14.8.39/build/Tone.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>

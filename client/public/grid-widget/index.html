@@ -1,0 +1,94 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Grid Drawing Widget</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <div class="container">
+    <aside class="toolbar">
+      <h2>Grid Drawing Tools</h2>
+
+      <div class="tool-section">
+        <h3>Drawing Mode</h3>
+        <div class="tool-options">
+          <button id="freehandMode" class="tool-btn active">Freehand</button>
+          <button id="circleMode" class="tool-btn">Circle</button>
+          <button id="lineMode" class="tool-btn">Line</button>
+          <button id="textMode" class="tool-btn">Text</button>
+          <button id="eraserMode" class="tool-btn">Eraser</button>
+        </div>
+      </div>
+
+      <div class="tool-section">
+        <h3>Grid Settings</h3>
+        <div class="tool-options">
+          <label>Grid Size:
+            <select id="gridSize">
+              <option value="10">10x10</option>
+              <option value="20">20x20</option>
+              <option value="30">30x30</option>
+              <option value="40" selected>40x40</option>
+              <option value="50">50x50</option>
+            </select>
+          </label>
+          <label>Grid Color:
+            <select id="gridTheme">
+              <option value="neon-blue">Neon Blue</option>
+              <option value="neon-green" selected>Neon Green</option>
+              <option value="neon-purple">Neon Purple</option>
+              <option value="classic-gray">Classic Gray</option>
+            </select>
+          </label>
+          <button id="toggleGrid" class="tool-btn">Hide Grid</button>
+        </div>
+      </div>
+
+      <div class="tool-section">
+        <h3>Drawing Settings</h3>
+        <div class="tool-options">
+          <label>Stroke Width:
+            <input type="range" id="strokeWidth" min="1" max="20" value="3">
+            <span id="strokeWidthValue">3</span>
+          </label>
+          <label>Color:
+            <input type="color" id="colorPicker" value="#00FF00">
+          </label>
+          <label id="circleSizeContainer">Circle Size:
+            <input type="range" id="circleSize" min="10" max="300" value="100">
+            <span id="circleSizeValue">100</span>
+          </label>
+          <label id="textSizeContainer" style="display: none;">Text Size:
+            <input type="range" id="textSize" min="10" max="50" value="20">
+            <span id="textSizeValue">20</span>
+          </label>
+          <div id="textInputContainer" style="display: none;">
+            <label>Text:
+              <input type="text" id="textInput" placeholder="Enter text...">
+            </label>
+          </div>
+        </div>
+      </div>
+
+      <div class="tool-section">
+        <h3>Actions</h3>
+        <div class="tool-options">
+          <button id="clearCanvas" class="tool-btn">Clear All</button>
+          <button id="saveDrawing" class="tool-btn">Save Image</button>
+          <button id="undoBtn" class="tool-btn">Undo</button>
+        </div>
+      </div>
+
+    </aside>
+
+    <main class="canvas-container">
+      <canvas id="gridCanvas"></canvas>
+      <canvas id="drawingCanvas"></canvas>
+    </main>
+  </div>
+
+  <script src="renderer.js"></script>
+</body>
+</html>
