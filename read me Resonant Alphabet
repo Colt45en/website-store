@@ -1,0 +1,92 @@
+# Resonant Alphabet: A Bijective Mapping from Symbols to Sound, Color, and Geometry
+
+**Author:** Colten (with computational assistance)  
+**Version:** Draft 1.0  
+**Keywords:** cross‑modal mapping, Lissajous, semitone law, bijection, differentiability, cymatics
+
+## Abstract
+We present a deterministic mapping that links orthographic symbols (A–Z), acoustic frequency, and chromatic hue through a single normalized variable \( v \in [-1, 1] \). The pipeline
+is strictly monotonic and therefore bijective; its derivative is positive everywhere, which guarantees differentiability and invertibility across the domain. We validate the mapping empirically
+using three datasets (letters→audio, color→audio, and a continuous inverse sweep) and report metrics suitable for continuous integration checks (monotonicity, positivity of \(df/dv\),
+and correlation structure). The result is a practical backbone for “resonant glyphs”—geometric figures (e.g., Lissajous patterns) generated from text via frequency interference.
+
+## 1. Introduction
+Cross‑modal correspondences—sound, color, and geometry—can be formalized without mysticism by enforcing a single control variable \(v\) that governs all domains.
+When each stage is strictly monotonic, the map is bijective and invertible; when the derivative is positive everywhere, the composition remains differentiable.
+This paper specifies such a mapping, demonstrates empirical validation, and outlines applications to glyph synthesis and visual music.
+
+## 2. Methods
+
+### 2.1 Normalization
+Letters A–Z are indexed \( i \in \{0,\dots,25\} \) and mapped to a signed unit interval
+\[
+v(i) = \frac{i - 12.5}{12.5} \in [-1, 1].
+\]
+Other domains (numbers, shapes, y‑position) are affinely scaled to the same interval. Color is parameterized via a proxy from hue→wavelength, then scaled to \(v\).
+
+### 2.2 Frequency Mapping (Log‑Hz Semitone Law)
+Given a root \( f_0 \) (Hz) and a symmetric range of \( R \) semitones, pitch is
+\[
+f(v) = f_0 \cdot 2^{(R/12)\,v}, \qquad v \in [-1,1].
+\]
+This mapping is strictly increasing; its inverse is
+\[
+v(f) = \frac{12}{R}\log_2\!\left(\frac{f}{f_0}\right).
+\]
+
+### 2.3 Differentiability
+The derivative exists and is positive for all \(v\):
+\[
+\frac{df}{dv} = f_0 \cdot 2^{(R/12)\,v} \cdot \frac{R\ln 2}{12} > 0.
+\]
+Hence \(f\) is \(C^\infty\) on \([-1,1]\) and invertible.
+
+### 2.4 Datasets
+We validate with three CSVs (see Data Availability):
+1. **Letters→Audio**: letter, index, \(v\), \(\Delta\) semitones, \(f\) (Hz), MIDI, label.  
+2. **Color→Audio**: hue→wavelength→\(v\) and resulting \(f\) (Hz).  
+3. **Inverse Sweep**: 25 evenly‑spaced \(v\) across \([-1,1]\) with corresponding audio and color values.
+
+### 2.5 Visual Geometry
+Let \(R_L, R_R\) be small integer harmonic sets and \(e(t)\) an amplitude envelope. The stereo Lissajous system is
+\[
+\begin{aligned}
+x(t) &= \sum_i e(t-t_i) \sum_{k \in R_L} a_k \sin(2\pi k f_i t + \phi_{i,k}), \\
+y(t) &= \sum_i e(t-t_i) \sum_{k \in R_R} b_k \sin(2\pi k f_i t + \psi_{i,k}).
+\end{aligned}
+\]
+Closed forms and rosettes arise from small‑integer relations between left/right composites.
+
+## 3. Results
+
+### 3.1 Monotonicity and Bijection
+For the 26‑letter set, \( f(v) \) is strictly increasing; no duplicate \(v\) or \(f\) occurs. This implies one‑to‑one mapping.
+
+### 3.2 Differentiability and Slope
+Numerically, the discrete derivative \( \Delta f / \Delta v \) remains positive for all samples and matches the analytic form above. Mean and variance are stable across the alphabet.
+
+### 3.3 Cross‑Modal Correlations
+Color‑derived \(v\) correlates strongly with audio frequency; \(\Delta\) semitones is exactly linear in \(v\) by construction. Empirical correlations serve as regression guards in CI.
+
+## 4. Discussion
+A single, smooth, invertible pipeline \( \text{symbol} \to v \to f \to \{\text{hue}, \text{geometry}\} \) yields reproducible sonic and visual structures.
+This alignment supports applications in visual music, glyph synthesis, data sonification, and joint embeddings of text/audio/shape.
+Future work includes 3D solids of revolution from Lissajous rotors and mode analysis via finite‑element methods.
+
+## 5. Reproducibility Checklist
+- Deterministic CSV inputs under `./data/`  
+- Verification script `verify_mapping.py` (runs in CI)  
+- Thresholds: strictly monotone; all discrete derivatives \(>0\); correlation(v, frequency) ≥ 0.98; correlation(v, Δsemitones) = 1.0 (color set)
+
+## 6. Data Availability
+Place the following files in `./data/` of the repository:
+- `letters_audio_map_AZ_f0-440_R-12.csv`
+- `color_audio_linking_map_24hues_f0-440_R-12.csv`
+- `inverse_sweep_v_audio_color_f0-440_R-12.csv`
+
+## 7. Acknowledgments
+Thanks to the “Sonic Alphabet” experiments for inspiring the cross‑modal validation harness.
+
+## References
+(1) Standard DSP texts for log‑frequency mappings and Lissajous figures.  
+(2) Color wavelength ranges (visible band: ~380–750 nm) as conventional physics references.
